@@ -549,7 +549,7 @@ div#zoom>img {
   transform-origin: 0 0;
 }
 
-.marker {
+/* .marker {
   position: absolute;
   width: 20px;
   height: 20px;
@@ -560,6 +560,16 @@ div#zoom>img {
   font-size: 12px;
   line-height: 20px;
   pointer-events: auto;
+}
+ */
+
+ .marker {
+  transition: transform 0.1s ease; /* ทำให้การเปลี่ยนแปลงขนาดเรียบ */
+}
+
+.marker:hover {
+  cursor: pointer;
+  transform: scale(1.1); /* ขยายขนาดเมื่อชี้เมาส์ไปที่มาร์คเกอร์ */
 }
 
 .line {

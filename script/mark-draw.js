@@ -44,7 +44,7 @@ function drawLine(start, end) {
     line.style.top = `${start.y}px`;
     line.style.width = `${length}px`;
     line.style.height = '2px';  // ความหนาของเส้น
-    line.style.backgroundColor = ' Blue';  // สีของเส้น
+    line.style.backgroundColor = 'Blue';  // สีของเส้น
     line.style.transformOrigin = '0 0';
     line.style.transform = `rotate(${angle}deg)`;
     line.style.zIndex = '9999'; // ให้เส้นอยู่ด้านบนสุด
@@ -123,7 +123,6 @@ function printLinesData() {
 // Marker
 const markerContainer = document.getElementById('image-container');
 let markers = [];
-let markerCounter = 1;
 let isMarking = false; // สถานะเริ่มต้นไม่อยู่ในโหมดมาร์คจุด
 
 // เริ่ม/หยุดโหมดมาร์คจุดเมื่อกดปุ่ม "MarkPoint"
@@ -145,27 +144,38 @@ markerContainer.addEventListener('click', (event) => {
 
     const marker = document.createElement('div');
     marker.className = 'marker';
+    marker.style.position = 'absolute';
     marker.style.left = `${markerPosition.x * scale + pointX}px`;
     marker.style.top = `${markerPosition.y * scale + pointY}px`;
     
     // เพิ่ม data-id เพื่อระบุแต่ละมาร์กเกอร์
-    marker.setAttribute('data-id', markerCounter);
+    marker.setAttribute('data-id', markers.length + 1); // ใช้ลำดับที่ยกเลิก
+
+    // แทนที่ด้วยไอคอนใหม่
+    const icon = document.createElement('i');
+    icon.className = 'fa-solid fa-location-pin'; // เปลี่ยนเป็นไอคอน pin
+    icon.style.color = '#ff0000'; // สีของไอคอน
+    icon.style.fontSize = '40px'; // ขนาดของไอคอน
+    icon.style.textShadow = `
+        1px 1px 0 yellow,   /* เงาด้านขวาล่าง */
+        -1px 1px 0 yellow,  /* เงาด้านซ้ายล่าง */
+        1px -1px 0 yellow,  /* เงาด้านขวาบน */
+        -1px -1px 0 yellow, /* เงาด้านซ้ายบน */
+        1px 0px 0 yellow,   /* เงาด้านขวา */
+        -1px 0px 0 yellow,  /* เงาด้านซ้าย */
+        0px 1px 0 yellow,   /* เงาด้านล่าง */
+        0px -1px 0 yellow   /* เงาด้านบน */
+    `; 
+    marker.appendChild(icon);
     
-    // เพิ่มหมายเลขลำดับให้กับ marker
-    const markerLabel = document.createElement('span');
-    markerLabel.className = 'marker-label';
-    markerLabel.textContent = markerCounter;
-    marker.appendChild(markerLabel);
     
     markerContainer.appendChild(marker);
     
     markers.push({
-        id: markerCounter,
+        id: markers.length + 1, // เพิ่ม ID เพื่อให้ไม่ซ้ำกัน
         x: markerPosition.x,
         y: markerPosition.y
     });
-    
-    markerCounter++;  // เพิ่มลำดับการมาร์คจุด
 });
 
 // ยกเลิกโหมดมาร์คจุดเมื่อคลิกขวา
@@ -250,17 +260,5 @@ zoom.onwheel = function (e) {
     constrainPanning();
     setTransform();
     updateMarkerPositions();
-}
-
-function switchFloor(floorId) {
-    const floors = document.querySelectorAll('#zoom img');
-    floors.forEach(floor => floor.style.display = 'none');
-    activeFloor = document.getElementById(floorId);
-    activeFloor.style.display = 'block';
-
-    scale = 1;
-    pointX = 0;
-    pointY = 0;
-    setTransform();
 }
 

@@ -1,5 +1,5 @@
- // ลบจุดมาร์คและเส้นทั้งหมด
- document.getElementById('clear-button').addEventListener('click', () => {
+// ลบจุดมาร์คและเส้นทั้งหมด
+document.getElementById('clear-button').addEventListener('click', () => {
     const markers = document.querySelectorAll('.marker');
     const lines = document.querySelectorAll('.line');
 
@@ -10,17 +10,23 @@
     resetDrawingState();
 });
 
-// ลบจุดมาร์คบนภาพ
-document.getElementById('image-container').addEventListener('contextmenu', (event) => {
-    event.preventDefault();
-    if (event.target.className === 'marker') {
-        event.target.remove();
-    }
-});
+// ฟังก์ชันล้างสถานะการวาด
+function resetDrawingState() {
+    startPoint = null;
+    isDrawing = false;
+    mode = null; // กำหนดค่าให้ 'mode' ใหม่หากมีการใช้
+}
 
-// คลิกขวาเพื่อยกเลิกการวาดเส้นปัจจุบัน
+// ลบจุดมาร์คหรือยกเลิกการวาดเส้นเมื่อคลิกขวา
 document.getElementById('image-container').addEventListener('contextmenu', (event) => {
     event.preventDefault(); // ป้องกัน context menu ปกติไม่ให้แสดง
+
+    // ลบจุดมาร์คถ้าเป็น marker
+    if (event.target.classList.contains('marker')) {
+        event.target.remove();
+    }
+
+    // ยกเลิกการวาดเส้นถ้ากำลังวาดอยู่
     if (isDrawing && mode === 'draw') {
         const existingLine = document.querySelector('.line.drawing');
         if (existingLine) {

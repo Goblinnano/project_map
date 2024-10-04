@@ -159,13 +159,13 @@ if (isset($_GET['pages']) && $_GET['pages'] != '') {
             </li>
 
             <li class="navbar__item">
-                <a href="#" id="clear-button" class="navbar__link" onclick="clearCanvas()">
+                <a href="#" id="clear-button" class="navbar__link">
                     <i data-feather="x-circle"></i><span>Clear</span>
                 </a>
             </li>
 
             <li class="navbar__item">
-                <a href="#" id="reset-size" class="navbar__link" onclick="resetSize()">
+                <a href="#" id="reset-size" class="navbar__link">
                     <i data-feather="refresh-ccw"></i><span>ResetSize</span>
                 </a>
             </li>
@@ -322,7 +322,6 @@ if (isset($_GET['pages']) && $_GET['pages'] != '') {
     <script src='https://unpkg.com/feather-icons'></script> <!-- icon Tools -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script> feather.replace(); </script> <!-- Icon หน้าเว็บ -->
-
 </body>
 
 </html>
